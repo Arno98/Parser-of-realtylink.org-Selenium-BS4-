@@ -42,7 +42,19 @@ try:
             price = price_div.text.strip() if price_div else 'Price not available'
             
             features_container = listing.find('div', class_='features')
-            rooms = features_container.find('div', class_='cac').text.strip() if features_container and features_container.find('div', class_='cac') else 'Room count not available'
+            if features_container:
+                cac_rooms = features_container.find('div', class_='cac')
+                cac_rooms_count = int(cac_rooms.text.strip()) if cac_rooms else 0
+
+                sdb_rooms = features_container.find('div', class_='sdb')
+                sdb_rooms_count = int(sdb_rooms.text.strip()) if sdb_rooms else 0
+            else:
+                cac_rooms_count = 0
+                sdb_rooms_count = 0
+
+            total_rooms = cac_rooms_count + sdb_rooms_count
+            rooms = str(total_rooms) if total_rooms > 0 else 'Room count not available'
+	    
             square_footage = features_container.find('span', class_='sqft').text.strip() if features_container and features_container.find('span', class_='sqft') else 'Square footage not available'
 
             address_div = listing.find('span', class_='address')
@@ -76,7 +88,7 @@ try:
                 "price": price,
                 "address": address,
                 "region": region,
-                "bedrooms": rooms,
+                "total_rooms": rooms,
                 "description": description,
                 "square_footage": square_footage,
                 "link": full_link,

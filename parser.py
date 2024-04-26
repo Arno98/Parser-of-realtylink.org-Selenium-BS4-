@@ -76,7 +76,7 @@ try:
                 "price": price,
                 "address": address,
                 "region": region,
-                "rooms": rooms,
+                "bedrooms": rooms,
                 "description": description,
                 "square_footage": square_footage,
                 "link": full_link,
